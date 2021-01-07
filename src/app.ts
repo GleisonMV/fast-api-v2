@@ -7,9 +7,7 @@ import fastifyAutoload from 'fastify-autoload'
 import fastifyMongodb from 'fastify-mongodb'
 import fastifyAuth from 'fastify-auth'
 import fastifyCors from 'fastify-cors'
-
 import pinoColada from 'pino-colada'
-
 import { join } from 'path'
 
 const fastify = Fastify({
@@ -80,7 +78,6 @@ fastify.register(fastifyAutoload, {
 const start = async () => {
   try {
     await fastify.listen(config.PORT, config.HOST)
-    fastify.log.info(`server listening on ${fastify.server.address()}`)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
