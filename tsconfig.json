@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "ESNEXT",
+        "moduleResolution": "Node",
+        "baseUrl": ".",
+        "outDir": "build",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+    },
+    "include": [
+        "src/**/*.ts",
+        "test/**/*.ts"
+    ]
+}
