@@ -2,6 +2,7 @@ import Fastify from 'fastify'
 import EnvSchema from 'env-schema'
 import fastifyHelmet from 'fastify-helmet'
 import FastifyOAS from 'fastify-oas'
+import FastifyJWT from 'fastify-jwt'
 import fastifySensible from 'fastify-sensible'
 import fastifyAutoload from 'fastify-autoload'
 import fastifyMongodb from 'fastify-mongodb'
@@ -64,15 +65,33 @@ fastify.register(fastifyCors)
 fastify.register(fastifyHelmet)
 fastify.register(fastifyAuth)
 fastify.register(fastifySensible)
+fastify.register(FastifyJWT, {
+  secret: config.JWT_SECRET
+})
 fastify.register(fastifyMongodb, {
   url: config.MONGO_URL,
   database: config.MONGO_DB
 })
+
+fastify.addSchema({
+  $id: 'error',
+  type: 'object',
+  properties: {
+    error: { type: 'string' },
+    statusCode: { type: 'number' },
+    message: { type: 'string' }
+  },
+  required: ['error', 'statusCode', 'message'],
+  additionalProperties: false
+})
+
 fastify.register(fastifyAutoload, {
-  dir: join(__dirname, 'plugins')
+  dir: join(__dirname, 'plugins'),
+  ignorePattern: /.*(test|spec)(\.ts|\.js|\.cjs|\.mjs)/
 })
 fastify.register(fastifyAutoload, {
-  dir: join(__dirname, 'services')
+  dir: join(__dirname, 'services'),
+  ignorePattern: /.*(test|spec)(\.ts|\.js|\.cjs|\.mjs)/
 })
 
 const start = async () => {
